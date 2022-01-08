@@ -22,32 +22,6 @@
     
 }
 
-.button{
-    border: none;
-    color: white;
-    margin: 0px;
-    padding: 2px 12px;
-    border-radius: 4px;
-    font-family: ArialRounded;
-    font-size: 18px;
-    height: 28px;
-    cursor: pointer;
-    background: none;
-    font-weight: 300;
-    }
-
-
-.button:focus{
-    background: rgba(0, 0, 0, 0.15);
-    /* font-weight: bold; */
-    
-}
-
-.button:active{
-    transform: translateY(2px);
-
-}
-
 .timer{
     margin: 10px;
     font-size: 120px;
@@ -73,10 +47,11 @@
     font-family: ArialRounded;
     font-size: 22px;
     height: 55px;
-    color: rgb(217, 85, 80);
+    transition: 0.5s ease-in-out 0s;
     font-weight: bold;
     width: 200px;
     background-color: white;
+    
 }
 
 
