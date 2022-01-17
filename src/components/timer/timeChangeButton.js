@@ -1,38 +1,56 @@
-import React from 'react'
-import classes from './TimeChangeButton.module.css'
-import { useDispatch } from 'react-redux'
-import { bgBlue, bgGreen, bgRed } from '../../redux/bgRedux/bg.actions'
+import React from 'react';
+import classes from './TimeChangeButton.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { CHANGE_MODE } from '../../redux/Reducer/actionTypes';
+import { COLORS, MODES } from '../../utils/constants';
 
 const TimeChangeButton = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { currentMode } = useSelector((state) => state.Store);
 
-  // const [bodyColor, setBodyColor] = useState('rgb(217, 85, 80)') 
+  const clickChangeRed = () => {
+    dispatch({
+      type: CHANGE_MODE,
+      payload: {
+        color: COLORS.POMODORO,
+        mode: MODES.POMODORO,
+      },
+    });
+  };
 
-   //React.useEffect(() => document.getElementById('root').style.backgroundColor = bodyColor, [bodyColor])
+  const clickChangeGreen = () => {
+    dispatch({
+      type: CHANGE_MODE,
+      payload: {
+        color: COLORS.SHORT_BREAK,
+        mode: MODES.SHORT_BREAK,
+      },
+    });
+  };
 
-    const clickChangeRed = () =>{
-        dispatch(bgRed())
-        //setBodyColor('rgb(217, 85, 80)')
-    }
+  const clickChangeBlue = () => {
+    dispatch({
+      type: CHANGE_MODE,
+      payload: {
+        color: COLORS.LONG_BREAK,
+        mode: MODES.LONG_BREAK,
+      },
+    });
+  };
 
-    const clickChangeGreen = () =>{
-        //setBodyColor('rgb(76, 145, 149)')
-         dispatch(bgGreen())
-    }
-
-    const clickChangeBlue = () =>{
-        dispatch(bgBlue())
-        //setBodyColor('rgb(69, 124, 163)')
-    }
-
-    
-    return (
-        <div>
-                <button className={classes.button} onClick={clickChangeRed} >Pomodoro</button>
-                <button className={classes.button} onClick={clickChangeGreen}>Short Break</button>
-                <button className={classes.button} onClick={clickChangeBlue}>Long Break</button>
-        </div>
-    )
-}
+  return (
+    <div>
+      <button className={classes.button} onClick={clickChangeRed}>
+        Pomodoro
+      </button>
+      <button className={classes.button} onClick={clickChangeGreen}>
+        Short Break
+      </button>
+      <button className={classes.button} onClick={clickChangeBlue}>
+        Long Break
+      </button>
+    </div>
+  );
+};
 
 export default TimeChangeButton;
