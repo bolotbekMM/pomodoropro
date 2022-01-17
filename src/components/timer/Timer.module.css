@@ -54,6 +54,26 @@
     
 }
 
+.stop-button{
+    cursor: pointer;
+    border: none;
+    margin: 20px 0px 0px;
+    padding: 0px 12px;
+    border-radius: 4px;
+    font-family: ArialRounded;
+    font-size: 22px;
+    height: 55px;
+    transition: 0.5s ease-in-out 0s;
+    font-weight: bold;
+    width: 200px;
+    background-color: white;
+    transform:translateY(6px);
+    box-shadow: none;
+    transition: color 0.5s ease-in-out 0s;
+
+
+}
+
 
 
 
@@ -67,4 +87,21 @@
     font-size: 18px;
     font-weight: 100;
     color: white;
+}
+
+.next-btndiv{
+    width: 140px;
+    position:absolute;
+    right: 0px;
+    bottom: -6px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.next-button{
+    width: 22px;
+    cursor: pointer;
+    opacity: 0.9;
 }

@@ -1,0 +1,2 @@
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
+export const CHANGE_MODE = 'CHANGE_MODE';

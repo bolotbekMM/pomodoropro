@@ -1,8 +1,8 @@
-import { bgReducer, BG_KEY } from "./bgRedux/bgReducer";
-import { combineReducers } from "redux";
+import { Reducer } from './Reducer/Reducer';
+import { combineReducers } from 'redux';
 
 let rootReducer = combineReducers({
-    bgStore:bgReducer
-})
+  Store: Reducer,
+});
 
-export {rootReducer}
+export { rootReducer };
