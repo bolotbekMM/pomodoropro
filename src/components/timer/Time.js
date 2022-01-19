@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import TimeChangebutton from './timeChangeButton';
 import next from '../../assests/next.png';
 import Btnpres from '../../assests/buttonpress.wav';
-import Clocktick from '../../assests/clock.mp3';
 import classes from './Timer.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS, MODES } from '../../utils/constants';
@@ -25,7 +24,9 @@ const Time = () => {
   const [timerOn, setTimerOn] = useState(false);
   const [autoStartBr, setAutoStartBr] = useState(autoStartBreak);
   const [autoStartPom, setAutoStartPom] = useState(autoStartPomodoro);
+  const [cycle, setCycle] = useState(longBreakIntervalCycle);
   const [timer, setTimer] = useState(null);
+  const [counter, setCounter] = useState(1);
 
   const Timertime = useCallback(() => {
     switch (currentMode) {
@@ -41,15 +42,13 @@ const Time = () => {
   const AutoBreak = useCallback(() => {
     setAutoStartBr(autoStartBreak);
     setAutoStartPom(autoStartPomodoro);
-  }, [autoStartBreak, autoStartPomodoro]);
+    setCycle(longBreakIntervalCycle);
+  }, [autoStartBreak, autoStartPomodoro, longBreakIntervalCycle]);
 
   useEffect(() => {
     Timertime();
     AutoBreak();
   }, [Timertime, AutoBreak]);
-
-  console.log(autoStartBr);
-  console.log(autoStartPom);
 
   const pomodoroTime = () => {
     dispatch(changeModeFunc(COLORS.POMODORO, MODES.POMODORO));
@@ -66,11 +65,38 @@ const Time = () => {
     pauseTimer();
   };
 
+  const pauseTimer = () => {
+    setTimerOn(false);
+    clearInterval(timer);
+    btnpres.play();
+  };
+
+  const btnpres = new Audio(Btnpres);
+
   useEffect(() => {
     if (display === 0) {
       if (currentMode === MODES.POMODORO) {
-        longBreakTime();
-        if (autoStartBr) {
+        setCounter((prev) => prev + 1);
+        if (cycle == counter) {
+          longBreakTime();
+          setCounter(1);
+
+          if (autoStartBr) {
+            startTimer();
+          }
+        } else {
+          shortBreakTime();
+
+          if (autoStartBr) {
+            startTimer();
+          }
+        }
+      }
+    }
+    if (display === 0) {
+      if (currentMode === MODES.SHORT_BREAK) {
+        pomodoroTime();
+        if (autoStartPom) {
           startTimer();
         }
       }
@@ -83,7 +109,35 @@ const Time = () => {
         }
       }
     }
-  }, [display]);
+  }, [display, cycle, autoStartBr, autoStartPom]);
+
+  console.log(counter);
+
+  /* const clickToNext = () => {
+    if (
+      window.confirm(
+        'Are you sure you want to finish the round early? (The remaining time will not be counted in the report.)'
+      )
+    )
+      if (currentMode === MODES.POMODORO) {
+        if (cycle == counter) {
+          longBreakTime();
+          setCounter(1);
+          console.log(counter);
+        } else {
+          shortBreakTime();
+          setCounter((prev) => prev + 1);
+         
+        }
+      }
+      if (currentMode === MODES.SHORT_BREAK) {
+          pomodoroTime();
+      }
+
+      if (currentMode === MODES.LONG_BREAK) {
+          pomodoroTime();
+      }
+  }; */
 
   const formatTime = (time) => {
     let minutes = Math.floor(time / 60);
@@ -114,42 +168,6 @@ const Time = () => {
     }, 100);
     setTimer(interval);
   };
-
-  console.log(display);
-
-  const pauseTimer = () => {
-    setTimerOn(false);
-    clearInterval(timer);
-    btnpres.play();
-  };
-
-  const clickToNext = () => {
-    if (
-      window.confirm(
-        'Are you sure you want to finish the round early? (The remaining time will not be counted in the report.)'
-      )
-    ) {
-      if (currentMode === MODES.POMODORO) {
-        longBreakTime();
-        if (autoStartBr) {
-          startTimer();
-        }
-      } else if (currentMode === MODES.LONG_BREAK) {
-        pomodoroTime();
-        if (autoStartPom) {
-          startTimer();
-        }
-      } else if (currentMode === MODES.SHORT_BREAK) {
-        pomodoroTime();
-        if (autoStartPom) {
-          startTimer();
-        }
-      }
-    }
-  };
-
-  const btnpres = new Audio(Btnpres);
-  //const clocktick = new Audio(Clocktick);
 
   return (
     <div className={classes.container}>
@@ -182,7 +200,7 @@ const Time = () => {
           <div className={classes['next-btndiv']}>
             {timerOn && (
               <img
-                onClick={clickToNext}
+                //onClick={clickToNext}
                 className={classes['next-button']}
                 src={next}
                 alt="next-button"
