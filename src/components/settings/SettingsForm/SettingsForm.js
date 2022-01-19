@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import closebutton from '../../../assests/closebutton.png';
 
 import './SettingsForm.css';
-import Switch from './Switch';
-import SSwitchBr from './SSwitchBr';
+import Switch from '../../UI/switch/Switch';
 
 const SettingsForm = (props) => {
   const dispatch = useDispatch();
@@ -74,9 +73,8 @@ const SettingsForm = (props) => {
         <div className="header">
           <p>TIMER SETTING</p>
           <img
-            onClick={submitHandler}
+            onClick={props.onCloseModal}
             className="closebutton"
-            // onClick={props.onCloseModal}
             src={closebutton}
             alt="closebutton"
           />
@@ -125,9 +123,10 @@ const SettingsForm = (props) => {
                 <span className="title">Auto start Breaks?</span>
               </div>
               <div>
-                <SSwitchBr
-                isOnBr={autoBreak}
-                handleToggleBr={() => setAutoBreak(!autoBreak)}/>
+                <Switch
+                checked={autoBreak}
+                onClick={() => setAutoBreak(!autoBreak)}
+                />
                 
               </div>
             </div>
@@ -137,8 +136,9 @@ const SettingsForm = (props) => {
               </div>
               <div>
                 <Switch 
-                isOn={autoStart}
-                handleToggle={() => setAutoStart(!autoStart)}/>
+                checked={autoStart}
+                onClick={(e) => setAutoStart(!autoStart)}
+                />
               </div>
             </div>
           </div>

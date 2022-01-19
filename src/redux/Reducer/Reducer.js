@@ -5,8 +5,7 @@ export const REDUCER = 'Store';
 
 let initialState = {
   color: COLORS.POMODORO,
-  //payload: 60,
-  currentMode: MODES.POMODORO, // | long-break | short-break
+  currentMode: MODES.POMODORO, 
   pomodorDuration: 120,
   longBreakDuration: 240,
   shortBreakDuration: 180,
@@ -20,7 +19,7 @@ let Reducer = (state = initialState, action) => {
       return {
         ...state,
         color: action.payload.color,
-        currentMode: action.payload.mode, // 'pomodor' | sh | lnshortBreakDuration
+        currentMode: action.payload.mode 
       };
     case UPDATE_SETTINGS:
       return {
